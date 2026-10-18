@@ -1,0 +1,9 @@
+{
+  "name": "Frontier AI Task Studio",
+  "version": "1.0.2",
+  "releaseDate": "2026-10-18",
+  "versioning": "Semantic Versioning",
+  "status": "branding update with documented verification limits",
+  "changelog": "CHANGELOG.md",
+  "policy": "VERSIONING.md"
+}

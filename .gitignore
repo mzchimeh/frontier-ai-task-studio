@@ -1,0 +1,22 @@
+# Local runtime state and task data
+/runtime/
+/workspace/tasks/
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+# Local secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# OS/editor local files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+# Generated release archives
+/releases/

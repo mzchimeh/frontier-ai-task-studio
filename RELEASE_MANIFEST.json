@@ -1,0 +1,108 @@
+{
+  "application": "Frontier AI Task Studio",
+  "version": "1.0.2",
+  "releaseDate": "2026-10-18",
+  "algorithm": "SHA-256",
+  "files": {
+    "VERSION": {
+      "sha256": "0dc8489f55b24f8c7f12619f9e5e25a3eab2ce5cce7e057413d9c27c26b7d675",
+      "bytes": 7
+    },
+    "release.json": {
+      "sha256": "09e2a0253d1cd26966511bcb8123fcd95ea0ecddf1c1eee2b674fdf21c256eed",
+      "bytes": 268
+    },
+    "CHANGELOG.md": {
+      "sha256": "c1733bb8c4fd78fb2ec92d439d2880d4eaf04d09fb9bbce21a2e0272b523bb1d",
+      "bytes": 3679
+    },
+    "VERSIONING.md": {
+      "sha256": "0c5e35a675d626f0270406991a3864a8e6f2961a35bc01be49940e1beee420a6",
+      "bytes": 3068
+    },
+    "AGENTS.md": {
+      "sha256": "08a86697c35c472b25b3c33016ec7105302b747d93043691339869e2c34c6190",
+      "bytes": 788
+    },
+    "PROJECT_RULES.md": {
+      "sha256": "3d549f53da1e1cab6e993d741f889b0e1c888ede6ae15f7f71d94eb9d60f0e8c",
+      "bytes": 5561
+    },
+    "README.md": {
+      "sha256": "d83f8e150d3d648cd2afeb994113d3e3b6288e11119bc22f441066124e95ca1b",
+      "bytes": 10550
+    },
+    "Start App.ps1": {
+      "sha256": "1ca5e46f3c1107fac42d41ba0d6b82426b17be95f6f925ca33dc960a7ef3b956",
+      "bytes": 809
+    },
+    "validation_server.py": {
+      "sha256": "3d54f9cebe6bcf9ccf0cddff0505490ae2aa296ff435ebca979be4ff5f5add2d",
+      "bytes": 12360
+    },
+    "dist/bundle-core.js": {
+      "sha256": "2f5495684b10d4b568ee0911cc28f6ca062bee1f575131f6cb8ce2a9a864ad8c",
+      "bytes": 2570
+    },
+    "dist/bundle.html": {
+      "sha256": "9759cb20176f81816034127159dd612dd56d75f1b38791930c99e508e3fba91c",
+      "bytes": 5925
+    },
+    "dist/bundle.js": {
+      "sha256": "af660d1f7426afc394b9f8ffa8c3af4e67b00c83eeb4d99505cf953f47417835",
+      "bytes": 13639
+    },
+    "dist/index.html": {
+      "sha256": "37085d02a6aa881f8826253f7acda9e3ed6c6098273eac89ea02f67db65daab7",
+      "bytes": 18618
+    },
+    "dist/specification.html": {
+      "sha256": "ab95ad344168e451ed0df4e5da07d108606ae3058e9464097e4ece070f94d7e9",
+      "bytes": 9129
+    },
+    "dist/specification.js": {
+      "sha256": "c507e4c6ac5384b577c4cd68e7e9a2431745ca51fe41a7c2079036c21fadf32e",
+      "bytes": 7394
+    },
+    "dist/style.css": {
+      "sha256": "72bd6cc25d33ddd046b999a164c6b80f4068bc2b515feb4998658f0913156ee0",
+      "bytes": 2787
+    },
+    "dist/submission-core.js": {
+      "sha256": "8bc1fb30767cce3a047772766d250eb6e5d7b92130c8d4a68adb4f5e6ebd1d40",
+      "bytes": 4070
+    },
+    "dist/submission.html": {
+      "sha256": "e9215d6498bd8294e414b58f1ddf791a4ee6d4573f5e2445fd30cdfe32c219a8",
+      "bytes": 7710
+    },
+    "dist/submission.js": {
+      "sha256": "b6616cb5b591ec61ed2ff1706a945f4fc9d785c99a44dea3851673f6a97fe2d9",
+      "bytes": 7893
+    },
+    "dist/validation.html": {
+      "sha256": "709e9bad16dbe5551fde96b35571bb0f58d53e71c1b3e23410e8ebbacc0fa1ba",
+      "bytes": 7243
+    },
+    "dist/validation.js": {
+      "sha256": "c1488cd0e480831c6d23b1166d3db042f146f1c56af3eb49db4a41fd33893597",
+      "bytes": 8305
+    },
+    "workspace/Authoring tasks.docx": {
+      "sha256": "abc6a0e39ea1cf10a71e838305d9bb86dd5fb6bb976c82b9c43886b070bde1df",
+      "bytes": 41230
+    },
+    "workspace/Project Summit.pdf": {
+      "sha256": "f81d92618b45f00ac14f8b71b707c28cc5310c55f2ced765aee9ea94801d86c4",
+      "bytes": 5496102
+    }
+  },
+  "excluded": [
+    "runtime/",
+    "workspace/tasks/",
+    "browser drafts",
+    "credentials",
+    "__pycache__/"
+  ],
+  "verificationLimits": "See CHANGELOG.md"
+}
