@@ -1,3 +1,5 @@
 Read PROJECT_RULES.md and both original source documents in workspace/ before changes. Treat their requirements as mandatory. Explain conflicts and obtain user permission before conflicting work. Keep unresolved source contradictions explicit. Do not generate author-owned instruction.md prose. Never label self-reported idea checks as project approval or actual Harbor validation. Preserve local drafts on updates.
 
 Follow VERSIONING.md for every software correction or feature. Record unreleased changes in CHANGELOG.md. Never overwrite a released snapshot or archive; release fixes under a new semantic version. Keep VERSION, release.json, changelog, and visible screen versions consistent. Preserve stored drafts and backup compatibility; software archives exclude user/runtime data.
+
+For user-requested installation or startup assistance, read INSTALL_FOR_AGENTS.md. Do not confuse installation verification with task evaluation or external approval.

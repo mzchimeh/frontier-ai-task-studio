@@ -1,6 +1,6 @@
 # Versioning and release policy
 
-Current release: **1.0.2**, released **2026-10-18**. Original baseline: **1.0.0**.
+Current release: **1.0.5**, released **2026-10-19**. Original baseline: **1.0.0**.
 
 Use Semantic Versioning: MAJOR.MINOR.PATCH.
 

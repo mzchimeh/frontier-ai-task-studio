@@ -1,14 +1,34 @@
 # Frontier AI Task Studio
 
-Saved software release: **v1.0.2 — 2026-10-18**. See CHANGELOG.md for release history and known limitations, and VERSIONING.md for all future corrections and releases. The versioned release archive excludes runtime data and browser drafts; export your stage backups separately.
+Saved software release: **v1.0.5 — 2026-10-19**. See CHANGELOG.md for release history and known limitations, and VERSIONING.md for all future corrections and releases. The versioned release archive excludes runtime data and browser drafts; export your stage backups separately.
 
-Open dist/index.html in a browser to use the app. No installation or account required. Use the same browser and opening method for consistent draft storage, and export a JSON backup regularly. Browser storage behavior for local files varies.
+For form drafting only, open dist/index.html in a browser. For the full workflow, start the local Python runner as described below. Use the same browser and origin for consistent draft storage and export JSON backups regularly. Browser storage behavior for local files varies.
+
+For ChatGPT/Codex-assisted setup, ask the agent to read [INSTALL_FOR_AGENTS.md](INSTALL_FOR_AGENTS.md) and follow it on your computer. This requires file and command access; ordinary chat alone cannot install the app.
 
 ## Local runner for stage 4
 
-Start App.ps1 launches the bundled Python runner hidden and opens the local app. Run it using PowerShell's normal script controls; no execution-policy changes are required by this project. Alternatively, run validation_server.py with Python 3.11 or newer, then open http://127.0.0.1:8765/dist/validation.html. The bundled runtime path on this computer is C:\Users\vared\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe. Keep one server running on port 8765. Existing browser drafts appear only on the same origin; import backups if switching from file-based pages.
+The application runner needs Python 3.11 or newer and uses only the Python standard library. Harbor and Docker are needed only for executing stage 4 checks. Install them separately; the application never installs software or configures credentials automatically.
 
-Harbor and Docker are separate prerequisites. The runner checks their executable availability and Docker engine status. Neither was available on the development machine's command path, so actual Harbor/container execution has not been tested. There is no automatic installation or credential setup. Harbor configuration and provider credentials remain in your own environment.
+On Windows, install [Python](https://www.python.org/downloads/windows/), reopen PowerShell in the extracted project folder, and run:
+
+```powershell
+& '.\Start App.ps1'
+```
+
+The launcher tries `py -3`, `python`, and `python3`, checks the interpreter version, starts the loopback server, waits for it to respond, and opens the validation page. It uses this folder's files, including when its path contains spaces. If script execution is restricted, follow your organization's policy or run Python directly; the project does not require changing execution policy:
+
+```powershell
+py -3 .\validation_server.py
+```
+
+Keep that terminal open and visit http://127.0.0.1:8765/dist/index.html. Alternatively use `python` if `py` is unavailable. To select an interpreter explicitly, use `& '.\Start App.ps1' -PythonPath 'C:\path\to\python.exe'`. `-Check` checks Python without starting anything; `-NoBrowser` starts the runner without opening a browser. A runner already serving another folder is not silently reused.
+
+On macOS or Linux, run `python3 validation_server.py` from the project folder and open the same local URL. The Python server is portable, but this release's native browser and Docker/Harbor validation have only been exercised on Windows; macOS/Linux execution is not certified.
+
+For execution checks, install [Docker](https://docs.docker.com/get-started/get-docker/) and start its engine, then follow [Harbor's official installation instructions](https://github.com/harbor-framework/harbor). This project was tested with Harbor 0.24.0; a reproducible install is `uv tool install harbor==0.24.0` after installing [uv](https://docs.astral.sh/uv/getting-started/installation/). Harbor may manage a newer Python separately from the app runner. Reopen PowerShell after installation so the tools are available on PATH. Verify `harbor --version` and `docker info`, then use Refresh tools and tasks. Provider review requires your own supported account/credentials and an explicit transmission acknowledgement; charges may apply.
+
+Default port: 8765. Set `TASK_AUTHOR_PORT` before startup only if needed, and use the resulting URL. Browser drafts belong to the exact origin (including port); export backups before changing it. Store shutdown/startup diagnostics under runtime/. Stop or manage checks with Harbor/Docker; the app has no process cancellation manager.
 
 Extract each stage 3 ZIP to workspace/tasks/<task-slug>/ so the required files sit directly inside that directory. Refresh tools and tasks, choose the folder, review the rules, and explicitly start an oracle, nop, or quality check. Quality review requires an additional provider-transmission acknowledgement. The runner invokes only the documented fixed Harbor commands, without a shell. It copies the task to runtime/<run-id>/task, hashes the copy, runs from a separate directory, and collects process logs, binary reward files, CTRF-shaped JSON reports, and source-change information. It does not execute tasks automatically on selection or page load.
 
@@ -34,7 +54,11 @@ Drafts autosave; Append status record adds a snapshot to local history. Approval
 
 Export tracker backup preserves the current draft and history in submission-tracker.json. Import merges valid history records by ID, preserves existing records, and loads the imported draft. Imported records remain unverified self-reports. Earlier-stage backups and validation evidence remain separate; export each relevant file when moving browsers or origins. A known conflict blocks appending a clean status record and requires discussion and user permission before any conflicting action. Draft conflict notes can still be retained/exported.
 
-PROJECT_RULES.md records the mandatory requirements. The unchanged source files are in workspace/. All five workflow screens are implemented. No AI instruction generation or external submission occurs. Stage 4 runs task code only after explicit run actions. A complete form does not establish acceptance or scientific validity. Source contradictions remain explicit. Source files and full manual review remain authoritative; static scans are intentionally limited and do not certify every pin, sealed boundary, or verifier behavior.
+PROJECT_RULES.md records the mandatory requirements for the local AfterQuery workflow. The unchanged source documents are in workspace/ and included with the project owner’s confirmed redistribution permission. They remain subject to their own rights and terms. All five workflow screens are implemented. No AI instruction generation or external submission occurs. Stage 4 runs task code only after explicit run actions. A complete form does not establish acceptance or scientific validity. Source contradictions remain explicit. Source files and full manual review remain authoritative; static scans are intentionally limited and do not certify every pin, sealed boundary, or verifier behavior.
+
+## Historical implementation checks
+
+These paragraphs record earlier implementation passes, not the current installation status.
 
 Verified in the browser: page loads, incomplete form produces missing-field/declaration feedback, reference-derived ground truth produces a rule-conflict warning, and saving/reloading restores the draft. Export/import are implemented but not exercised end to end in this pass.
 
@@ -45,3 +69,14 @@ Stage 3 verification: JavaScript syntax checks; isolated structural fixture test
 Stage 4 verification: Python compile and JavaScript syntax checks; five automated tests covering missing files, task-path boundaries, fingerprint change detection, binary reward/CTRF collection, rejection of unauthorized execution requests, and encoded runtime-file access. Browser verified connected/missing-prerequisite status, disabled run buttons, and zero-run status without false passes. Real Harbor execution, model-provider review, and end-to-end evidence download/import remain unverified because prerequisites are absent.
 
 Stage 5 verification: JavaScript syntax checks and automated tests of draft/submission validity, approval gating, payment requirements/chronology, fixed payout amount, conflicting revisions and identical archive checks, infrastructure states, and rule-conflict blocking. Browser verified initial pending state and rejection of premature approval with no status record appended. Native ZIP selection, backup import/export, and final downloads still need end-to-end browser testing. No external submission, approval, or payment has occurred.
+
+
+## Current verification and publication status
+
+Earlier verification paragraphs above describe historical implementation passes and their limits. Subsequent Windows testing completed an executable synthetic sample: actual Harbor oracle rewards 1,1 and nop rewards 0,0 on one unchanged fingerprint, plus separate numerical/shortcut checks. Those tests do not establish AfterQuery approval or performance on other computers. Provider-based quality review and frontier difficulty remain unverified. Sample task data, personal review notes, runtime logs, credentials and release snapshots are not public source inputs.
+
+For clean installation, publication exclusions, license decisions and private source documents, read PUBLICATION.md. GitHub source hosting does not run the Python server or Docker. This is a local application; GitHub Pages cannot provide its execution runner.
+
+## Rights
+
+Application code: all rights reserved; see LICENSE.txt. This is not an open-source license. The source documents and third-party tools retain their own terms. See PUBLICATION.md for the recorded decisions and package exclusions.

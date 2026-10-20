@@ -6,6 +6,53 @@ All released software changes are recorded here using Semantic Versioning. Relea
 
 No changes recorded yet.
 
+## 1.0.5 — 2026-10-19
+
+### Documentation
+
+- Added INSTALL_FOR_AGENTS.md with prerequisite discovery, official installation sources, safe extraction/upgrades, local startup, verification, failure handling and user handoff.
+- Linked the guide from README.md and AGENTS.md. It distinguishes installation from task execution and model-provider review, and preserves user approval, restart, credential and agreement requirements.
+- No application behavior, storage schema, runner, source documents, task files or existing release archives changed.
+
+### Verification
+
+- Checked guide commands against the shipped launcher/server and current official Harbor, uv and Docker documentation; the Python detection check passed.
+- Verified unchanged application scripts and source documents against v1.0.4, consistent version labels and metadata, and the new ZIP's CRC and SHA-256 manifest. No prerequisites were reinstalled or evaluation jobs started for this documentation update.
+
+
+## 1.0.4 — 2026-10-19
+
+### Fixed
+
+- Removed the machine-specific Python path from the Windows launcher; added interpreter detection, explicit interpreter selection, readiness checks, and wrong-folder detection.
+- Documented setup, portable server startup, current verification limits, public packaging restrictions and private document handling.
+- Restored Git exclusion/line-ending files and excluded sample backups/publication output. Existing data and history remain untouched.
+
+### Verification
+
+- Passed fresh-folder Windows smoke tests for Python detection/override, missing-interpreter errors, startup with a path containing spaces, all five page loads, empty task discovery, existing-server reuse, wrong-folder rejection and direct-Python fallback. PowerShell 7 launcher execution passed; Windows PowerShell 5.1 script execution was blocked by existing host policy, which was not changed.
+- Verified authorized source documents and validation runner remain byte-identical; prior releases and local drafts/data preserved.
+- Audited the allowlisted source package for excluded runtime/credential/task data, personal machine paths and common secret patterns; verified ZIP CRC and SHA-256 manifest. This is not a full Git-history secret audit or an independent second-computer test.
+
+### Publication decisions
+
+- Owner retained all rights to application code; no open-source/reuse license was granted.
+- Owner confirmed redistribution permission for both unchanged source documents.
+- No GitHub upload, commit, push, Git-history rewrite or credential configuration performed.
+
+## 1.0.3 — 2026-10-19
+
+### Fixed
+
+- Validation review now distinguishes an explicitly recorded, task-scoped sample-only exception from an unresolved conflict. Approval never marks a check passed or establishes external acceptance.
+- Preserved existing notes, storage keys, backup schema, runtime evidence, runner behavior and all unrelated functionality. Older backups default to unresolved.
+
+### Verification
+
+- Passed focused tests for approved versus unresolved status, task scoping, real-task rejection, missing approvals, and old/new backup restoration.
+- Verified the page preserves saved notes and shows the authorized sample exception without the incorrect stop message. Pending checks remain pending.
+- Source documents, runner, task data and prior evidence remain unchanged. Runner session history is session-only, as before; this fix does not add persistence.
+
 ## 1.0.2 — 2026-10-18
 
 ### Changed

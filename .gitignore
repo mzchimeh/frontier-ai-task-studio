@@ -20,3 +20,11 @@ Desktop.ini
 .idea/
 # Generated release archives
 /releases/
+
+# Local working data and publication output
+/workspace/sample-backups/
+/workspace/exports/
+/backups/
+/exports/
+/publication/
+*.log
