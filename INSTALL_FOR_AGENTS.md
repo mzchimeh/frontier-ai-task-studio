@@ -1,89 +1,99 @@
-# Agent-assisted installation
+# Automated installation reference
 
-Use this guide when the user asks you to install or start Frontier AI Task Studio from this package. It describes a local application, not a hosted website or a one-click installer. It does not override the user's instructions, tool permissions, computer policy, software agreements or account requirements.
+Installation procedures for Frontier AI Task Studio on a local computer. The application consists of browser pages and a loopback Python server. Harbor and Docker provide optional task execution; a hosted evaluation service is not included.
 
-## 1. Check access and preserve existing work
+Automation requires local filesystem and command access. Interactive approval remains necessary for administrator prompts, software agreements, restarts and account configuration. Installation does not authorize task execution, provider transmission or billable model calls.
 
-- Confirm that your session can read files and run commands on the user's intended computer. A chat-only session cannot perform installation; explain that limitation and provide the commands instead of claiming success.
-- Identify the ZIP and destination from the user's request. Inspect its file listing before extraction. Reject paths that escape the destination, and do not run unexpected executables or archive-supplied installation commands without review.
-- Extract into a dedicated folder, keeping all files in their relative locations. Do not install into a Windows system directory. If a folder already contains this app, preserve it and its data; use a separate versioned folder unless the user requested an in-place update.
-- Read README.md and LICENSE.txt. The application code is rights reserved; this guide does not grant an additional reuse license. For task authoring/evaluation, also read AGENTS.md, PROJECT_RULES.md and both original documents in workspace/. Keep source contradictions explicit.
-- Check VERSION, release.json and the page labels for consistency. If RELEASE_MANIFEST.json is present, compare the listed sizes and SHA-256 hashes to the extracted files. Compare the ZIP checksum with a separately supplied checksum when available. Matching hashes establish integrity against that manifest, not the publisher's identity or trustworthiness.
-- Preserve runtime/, workspace/tasks/, workspace/sample-backups/ and browser backups during upgrades. Browser drafts belong to the exact browser origin, including port; files alone do not back them up. Do not clear browser storage or rewrite Git history.
+## Package preparation
 
-## 2. Inventory the prerequisites
+1. Inspect the archive before extraction. Archive paths must remain inside the selected installation directory. Review unexpected executable files before running them.
+2. Extract the complete package into a normal application directory. Keep relative paths intact. Avoid system directories and preserve any existing installation and its data.
+3. Read README.md and LICENSE.txt. Task-authoring work also depends on AGENTS.md, PROJECT_RULES.md and the original documents in workspace/.
+4. Check VERSION, release.json and the page version labels. Verify the extracted files against RELEASE_MANIFEST.json and compare the archive with a separately supplied SHA-256 checksum when available. Matching hashes verify consistency with the supplied manifest; they do not authenticate the publisher.
+5. Preserve runtime/, workspace/tasks/, workspace/sample-backups/ and exported browser backups during upgrades. Browser drafts belong to a browser origin, including its port. Copying application files does not back them up.
 
-Check before installing anything. Record versions and readiness without printing credentials or the runner token.
+The code is rights reserved. Installation documentation does not grant additional reuse rights or change third-party terms.
 
-| Component | Required for | Check |
+## Prerequisites
+
+| Component | Purpose | Verification |
 | --- | --- | --- |
-| Python 3.11+ | Local app server | `py -3 --version`, `python --version`, or `python3 --version` |
-| Modern browser | All five pages | Open the local URL after server startup |
-| Harbor | Executing stage 4 checks | `harbor --version` |
-| Docker with a running Linux engine | Executing stage 4 checks | `docker info` |
-| Provider account/credentials | Optional model-based quality review | User configures privately; do not request secrets in chat |
+| Python 3.11+ | Local application server | `py -3 --version`, `python --version`, or `python3 --version` |
+| Modern browser | Workflow pages | Open the local application URL |
+| Harbor | Stage 4 execution | `harbor --version` |
+| Running Docker Linux engine | Stage 4 containers | `docker info` |
+| Supported provider account | Optional model-based quality review | Configure credentials privately before separately authorizing review |
 
-For drafting/forms only, Python and a browser are sufficient. If the user requested full task-evaluation setup, also prepare Harbor and Docker. Do not replace a working installation unnecessarily. The app runner uses Python's standard library and has no app-level pip dependency list.
+Python and a browser are sufficient for the local forms. Full execution setup additionally requires Harbor and Docker. The application server uses only the Python standard library. Preserve compatible existing installations rather than reinstalling them unnecessarily.
 
-## 3. Install only missing prerequisites
+## Dependency installation
 
-Use the vendor's official installer, supported package source and current system requirements. Check the operating system and architecture first. Prefer non-admin, user-local installation where supported. Never disable security protections, change PowerShell execution policy, accept legal agreements, reboot, buy a subscription or configure billable services silently. Let the user handle agreements, credentials and any required administrator prompts. If a restart is needed, explain why and resume checks after the user restarts; do not restart automatically.
+Check operating-system and architecture compatibility against current vendor requirements. Install missing dependencies from official sources:
 
-- Python: https://www.python.org/downloads/ and https://docs.python.org/3/using/windows.html . Install Python 3.11 or newer, reopen the terminal and check its version. Harbor may use a separately managed newer Python.
-- Docker: https://docs.docker.com/get-started/get-docker/ . On Windows, follow its supported virtualization/WSL requirements. Start Docker and wait for the Linux engine to become ready. The `docker` executable being present is not proof that the engine works. Account and license requirements depend on the user's situation.
-- uv, if missing: https://docs.astral.sh/uv/getting-started/installation/ . Use the official supported installation method and inspect any downloaded installer before executing it.
-- Harbor: https://github.com/harbor-framework/harbor . This app's recorded execution tests used Harbor 0.24.0. For that reproducible baseline, after uv is available run:
+- [Python downloads](https://www.python.org/downloads/) and [Windows setup](https://docs.python.org/3/using/windows.html).
+- [Docker installation](https://docs.docker.com/get-started/get-docker/), including the applicable virtualization and WSL requirements on Windows.
+- [uv installation](https://docs.astral.sh/uv/getting-started/installation/) and [tool management](https://docs.astral.sh/uv/guides/tools/).
+- [Harbor installation](https://github.com/harbor-framework/harbor).
+
+The recorded execution baseline is Harbor 0.24.0. With uv available:
 
 ```text
 uv tool install harbor==0.24.0
 harbor --version
 ```
 
-uv can manage tools and their Python environments separately: https://docs.astral.sh/uv/guides/tools/ . If installation reports an incompatible interpreter, follow the package's published requirements and uv's documented interpreter-selection options. Do not silently install a different Harbor version or downgrade an existing working installation; explain compatibility differences first.
+Harbor may require a newer, separately managed Python interpreter than the application server. Follow the package requirements and uv's interpreter-selection documentation when needed. Review compatibility before changing an existing Harbor version.
 
-Reopen the terminal after PATH changes, then recheck `harbor --version` and `docker info`. Report network restrictions, unsupported systems or installer failures accurately; preserve logs locally without including secrets in the completion report.
+Prefer user-local installation where supported. Keep security protections and execution policy intact. Software agreements, administrator prompts and credentials require interactive handling. Schedule any required restart explicitly; do not restart automatically. Reopen the terminal after PATH changes, start Docker and confirm `docker info` succeeds. An installed Docker executable alone does not establish engine readiness.
 
-## 4. Start this extracted copy
+## Startup
 
-Run commands from the folder containing validation_server.py, not from the terminal's default folder. Paths below are relative to that folder; never reuse a developer's personal Python path.
+Run startup commands from the directory containing validation_server.py.
 
-Windows PowerShell, when local policy permits scripts:
+On Windows, where script policy permits:
 
 ```powershell
 & '.\Start App.ps1' -Check
 & '.\Start App.ps1'
 ```
 
-The launcher detects Python, checks that an existing runner belongs to this folder, waits for startup and opens the browser. It also supports `-NoBrowser` and `-PythonPath 'C:\path\to\python.exe'`.
+The launcher detects Python, checks the existing runner's application directory, waits for readiness and opens the validation page. Optional arguments:
 
-If script execution is restricted, keep that policy unchanged and use the direct-Python fallback:
+- `-PythonPath 'C:\path\to\python.exe'`: select a specific interpreter.
+- `-NoBrowser`: start without opening a browser.
+- `-Check`: check Python without starting the server.
+
+When PowerShell scripts are restricted, retain the policy and use Python directly:
 
 ```powershell
 py -3 .\validation_server.py
 ```
 
-Use `python .\validation_server.py` if that is the verified Python 3.11+ command on this computer. Keep its terminal open. On macOS/Linux, the corresponding command is:
+Use `python .\validation_server.py` if that is the verified Python 3.11+ command. Keep the server terminal open. On macOS/Linux:
 
 ```sh
 python3 validation_server.py
 ```
 
-Then open http://127.0.0.1:8765/dist/index.html . Stage 4 is http://127.0.0.1:8765/dist/validation.html . Native launcher testing was on Windows; do not claim other platforms were tested on the user's machine until you check them.
+Default application URL: http://127.0.0.1:8765/dist/index.html . Validation URL: http://127.0.0.1:8765/dist/validation.html . Windows startup has been tested; independent macOS/Linux verification remains pending.
 
-If port 8765 is occupied, identify the service; do not kill an unrelated process. Reuse only this folder's runner, or select a free port with TASK_AUTHOR_PORT before startup and tell the user the resulting URL. Do not expose the server beyond loopback, open firewall access, or set up public hosting as part of this installation.
+If the port is occupied, identify the service before taking action. Reuse only a runner serving the intended installation. TASK_AUTHOR_PORT can select another free port before startup. Changing the port changes the browser origin and access to existing drafts. Keep the server on loopback; public hosting and firewall exposure are outside installation scope.
 
-## 5. Verify installation, without evaluating a task automatically
+## Installation verification
 
-- Confirm the server responds, and that `/api/status` reports this folder's workspace/tasks path. Do not print or share its token.
-- Open all five pages: `/dist/index.html`, `/dist/specification.html`, `/dist/bundle.html`, `/dist/validation.html`, `/dist/submission.html`. Check that they load with the package's version and that the browser has no installation-related errors.
-- For full setup, confirm stage 4 detects Harbor, Docker and a ready engine. A fresh package normally has no tasks and no run history; do not fabricate sample data or results to fill it.
-- If a Docker smoke test is needed within the user's authorized installation scope, `docker run --rm hello-world` can verify image download and execution. It downloads a public test image and is separate from project evaluation. Do not label it an oracle, scientific or AfterQuery pass.
-- Do not execute uploaded task code, start model-based review, transmit task contents to a provider, or incur provider charges merely to finish installation. Task evaluation requires the user's authorization and the app's rule/consent checks. Read task code before running it.
-- A previous sample-only exception for Harbor's network-control helper is not a blanket exception for another user's task or a real submission. Explain any conflicting setup and obtain that user's explicit permission before dependent execution. Keep verifier network isolation intact.
-- Do not mark form declarations, originality, scientific correctness, frontier difficulty or external acceptance as passed based on installation checks.
+Installation is verified when:
 
-## 6. Finish with a clear handoff
+- The server responds and `/api/status` reports the installation's workspace/tasks path. Do not expose the response token in logs or reports.
+- All five pages load: index.html, specification.html, bundle.html, validation.html and submission.html under `/dist/`.
+- The page labels match the package version and no installation-related browser errors appear.
+- For execution setup, stage 4 detects Harbor, Docker and a ready engine.
 
-Tell the user the installation folder, app version, local launch command, browser URL, prerequisite versions and which checks actually passed. List remaining user actions separately, such as administrator approval, restart, Docker startup or private provider configuration. Explain how to reopen the app and preserve backups. If access or a prerequisite is blocked, say exactly what remains unavailable; do not report a partial setup as fully ready.
+A fresh installation normally contains no task data or visible run history. No sample output needs to be invented or imported to complete installation. If authorized for the installation check, `docker run --rm hello-world` verifies a public image download and container execution. It is not a task-validation result.
 
-The app is local, single-workspace software. It does not upload tasks to AfterQuery, guarantee approval, host a shared evaluation service, or automatically supply model accounts. Follow README.md for operating limits and PUBLICATION.md for distribution details.
+Uploaded task code requires a separate execution decision and rule review. Model review also requires separate provider-transmission consent. A previous sample-only exception does not apply to a different task or a real submission. Preserve verifier network isolation and resolve rule conflicts before dependent execution.
+
+## Installation record and handoff
+
+Record the application directory and version, launch command, local URL, dependency versions, completed checks and unresolved failures. List required interactive actions separately. Exclude credentials and the runner token from the record. Include reopening and backup instructions from README.md.
+
+Installation checks establish local readiness, not scientific validity, originality, frontier difficulty or AfterQuery acceptance. External submission and approval remain separate processes. Operating limits are documented in README.md; distribution terms are documented in LICENSE.txt and PUBLICATION.md.

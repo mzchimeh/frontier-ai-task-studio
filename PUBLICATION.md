@@ -1,25 +1,36 @@
-# GitHub publication preparation
+# Distribution policy
 
-Nothing has been uploaded, published or pushed by this preparation.
+## Application rights
 
-## Decisions recorded — 2026-10-19
+Application code is rights reserved under LICENSE.txt. No open-source or general reuse license is granted. Availability for download does not extend those permissions. Public repositories remain subject to [GitHub's viewing and forking terms](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository).
 
-The project owner selected **rights reserved** for the application code; see LICENSE.txt. Do not describe this project as open source or imply a general reuse license. Technical ability to run the app is separate from permission to reuse its code. Public GitHub repositories are subject to GitHub's viewing/forking terms: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository
+## Third-party documents
 
-The project owner confirmed permission to redistribute Authoring tasks.docx and Project Summit.pdf. They are included unchanged in the reviewed source package. This records the owner's confirmation; it does not transfer ownership or extend downstream rights beyond the documents' applicable terms.
+Authoring tasks.docx and Project Summit.pdf are distributed unchanged with permission confirmed for this project on 2026-10-19. Their ownership and applicable terms remain separate from the application code. Inclusion does not grant permission to relicense the documents.
 
-## Files intended for publication
+## Release contents
 
-The reviewed source archive includes app code, setup/version documentation, rights notice, the rule register, original source documents and a SHA-256 file manifest. It excludes .git history, runtime/, workspace/tasks/, workspace/sample-backups/, release snapshots, virtual environments, credentials, browser backups and generated publication output. Local data is retained on your computer.
+Release packages contain application code, setup and version documentation, the rights notice, the rule register, original source documents and a SHA-256 file manifest.
 
-Use the reviewed source ZIP for a clean upload or new repository. Do not upload the entire working folder. .gitignore does not remove files already tracked or in Git history. Existing history was not rewritten, committed or pushed by this preparation. If publishing that history instead, review it separately for private data and credentials first.
+The following are excluded:
 
-## Run after downloading
+- Git metadata and previous release snapshots.
+- runtime/, workspace/tasks/ and workspace/sample-backups/.
+- Browser backups, credentials and virtual environments.
+- Generated publication output and local working data.
 
-Extract the ZIP into a normal folder and follow README.md. The local app needs Python 3.11+; executing checks additionally needs Harbor and a running Docker engine. Install prerequisites separately from their official sources. Provider review requires your own account and explicit acknowledgement and may incur charges. No credentials or task data are provided by the archive.
+Local data remains in the installation directory and browser storage. The release archive is not a backup of that data.
 
-PowerShell scripts may be restricted by local policy. Follow that policy; use the direct Python command in README.md instead of weakening it. GitHub Pages cannot host the Python/Docker runner. Keep the runner on loopback; this release does not offer hosted multi-user accounts or shared storage.
+## Repository and release workflow
 
-## Verification limits
+Use the existing repository for normal review, staging, commit, push, tag and release operations. Review staged files and any relevant Git history before publication. .gitignore excludes matching untracked files; it does not remove tracked files or historical content.
 
-Fresh-folder testing is performed on this Windows machine, with a path containing spaces. It is not an independent second-computer, macOS, or Linux certification. The publication scan checks the allowlisted package for common secret formats and personal machine paths; it is not a proof that arbitrary repository history is free of secrets. The actual sample's earlier Harbor results do not establish external task acceptance. Read CHANGELOG.md for the checks completed for this release.
+Publish only verified release assets. Keep existing release archives unchanged and issue corrections under a new version. Match release metadata, visible page versions, the manifest and the ZIP checksum. GitHub source hosting does not provide the application's Python or Docker execution service.
+
+## Installation and verification limits
+
+Installation requires Python 3.11+. Executing checks additionally requires Harbor and a running Docker Linux engine. Provider-based quality review requires a separately configured account and explicit transmission consent and may incur charges. No credentials or private task data are included in the release.
+
+Fresh-folder startup checks were performed on Windows, including a path containing spaces. This does not certify operation on an independent second computer, macOS or Linux. Package scans check an allowlisted file set for common credential patterns and personal machine paths; they are not exhaustive security guarantees for arbitrary repository history.
+
+Task-validation results do not establish external acceptance. Version history and verification details are recorded in CHANGELOG.md. Setup instructions are in README.md and INSTALL_FOR_AGENTS.md.

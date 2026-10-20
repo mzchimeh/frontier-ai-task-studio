@@ -1,82 +1,90 @@
 # Frontier AI Task Studio
 
-Saved software release: **v1.0.5 — 2026-10-19**. See CHANGELOG.md for release history and known limitations, and VERSIONING.md for all future corrections and releases. The versioned release archive excludes runtime data and browser drafts; export your stage backups separately.
+A local application for preparing, validating and tracking expert-authored AI-agent benchmark tasks through a five-stage workflow.
 
-For form drafting only, open dist/index.html in a browser. For the full workflow, start the local Python runner as described below. Use the same browser and origin for consistent draft storage and export JSON backups regularly. Browser storage behavior for local files varies.
+Current release: **v1.0.6 — 2026-10-20**. Application code is rights reserved; see [LICENSE.txt](LICENSE.txt). Release packages exclude private tasks, runtime logs, credentials and browser backups.
 
-For ChatGPT/Codex-assisted setup, ask the agent to read [INSTALL_FOR_AGENTS.md](INSTALL_FOR_AGENTS.md) and follow it on your computer. This requires file and command access; ordinary chat alone cannot install the app.
+## Requirements and startup
 
-## Local runner for stage 4
+The local server requires Python 3.11+ and a modern browser. Task execution additionally requires Harbor and a running Docker Linux engine. Model-based quality review requires a separately configured provider account and explicit transmission consent; charges may apply. The server uses the Python standard library and does not install dependencies or configure accounts automatically.
 
-The application runner needs Python 3.11 or newer and uses only the Python standard library. Harbor and Docker are needed only for executing stage 4 checks. Install them separately; the application never installs software or configures credentials automatically.
-
-On Windows, install [Python](https://www.python.org/downloads/windows/), reopen PowerShell in the extracted project folder, and run:
+Extract the package and open a terminal in the directory containing validation_server.py. On Windows, where script policy permits:
 
 ```powershell
 & '.\Start App.ps1'
 ```
 
-The launcher tries `py -3`, `python`, and `python3`, checks the interpreter version, starts the loopback server, waits for it to respond, and opens the validation page. It uses this folder's files, including when its path contains spaces. If script execution is restricted, follow your organization's policy or run Python directly; the project does not require changing execution policy:
+The launcher detects Python, verifies that an existing runner serves the intended directory, waits for readiness and opens the validation page. `-Check` verifies Python without starting the server. `-NoBrowser` suppresses browser startup. `-PythonPath 'C:\path\to\python.exe'` selects an interpreter explicitly.
+
+If PowerShell scripts are restricted, retain the policy and start the server directly:
 
 ```powershell
 py -3 .\validation_server.py
 ```
 
-Keep that terminal open and visit http://127.0.0.1:8765/dist/index.html. Alternatively use `python` if `py` is unavailable. To select an interpreter explicitly, use `& '.\Start App.ps1' -PythonPath 'C:\path\to\python.exe'`. `-Check` checks Python without starting anything; `-NoBrowser` starts the runner without opening a browser. A runner already serving another folder is not silently reused.
+Use `python` if that is the installed Python 3.11+ command. On macOS/Linux, use `python3 validation_server.py`. Keep the server terminal open. Windows startup has been tested; independent macOS/Linux verification remains pending.
 
-On macOS or Linux, run `python3 validation_server.py` from the project folder and open the same local URL. The Python server is portable, but this release's native browser and Docker/Harbor validation have only been exercised on Windows; macOS/Linux execution is not certified.
+Open http://127.0.0.1:8765/dist/index.html . For form drafting without execution, dist/index.html can also be opened directly, although local-file browser storage varies. Use a consistent browser and origin and export backups regularly.
 
-For execution checks, install [Docker](https://docs.docker.com/get-started/get-docker/) and start its engine, then follow [Harbor's official installation instructions](https://github.com/harbor-framework/harbor). This project was tested with Harbor 0.24.0; a reproducible install is `uv tool install harbor==0.24.0` after installing [uv](https://docs.astral.sh/uv/getting-started/installation/). Harbor may manage a newer Python separately from the app runner. Reopen PowerShell after installation so the tools are available on PATH. Verify `harbor --version` and `docker info`, then use Refresh tools and tasks. Provider review requires your own supported account/credentials and an explicit transmission acknowledgement; charges may apply.
+Detailed prerequisite installation and verification are documented in [INSTALL_FOR_AGENTS.md](INSTALL_FOR_AGENTS.md). Official sources: [Python](https://www.python.org/downloads/), [Docker](https://docs.docker.com/get-started/get-docker/), [Harbor](https://github.com/harbor-framework/harbor) and [uv](https://docs.astral.sh/uv/getting-started/installation/). The recorded Harbor baseline is 0.24.0; with uv installed, `uv tool install harbor==0.24.0` installs that version. Reopen the terminal after PATH changes, start Docker and verify `harbor --version` and `docker info` before execution.
 
-Default port: 8765. Set `TASK_AUTHOR_PORT` before startup only if needed, and use the resulting URL. Browser drafts belong to the exact origin (including port); export backups before changing it. Store shutdown/startup diagnostics under runtime/. Stop or manage checks with Harbor/Docker; the app has no process cancellation manager.
+## Workflow
 
-Extract each stage 3 ZIP to workspace/tasks/<task-slug>/ so the required files sit directly inside that directory. Refresh tools and tasks, choose the folder, review the rules, and explicitly start an oracle, nop, or quality check. Quality review requires an additional provider-transmission acknowledgement. The runner invokes only the documented fixed Harbor commands, without a shell. It copies the task to runtime/<run-id>/task, hashes the copy, runs from a separate directory, and collects process logs, binary reward files, CTRF-shaped JSON reports, and source-change information. It does not execute tasks automatically on selection or page load.
+### 1. Idea and eligibility
 
-Runs are sequential. Do not close the runner during a check: this version has no process/container cancellation manager, and closing the app may leave Harbor/container processes active. Review logs and use Harbor/Docker's own management tools if necessary. Total command elapsed time includes build/harness overhead and is not a measured solution runtime.
+Record the research context, relevant expertise, problem, deliverables, difficulty, originality, data provenance, independent ground truth and verification approach. Complete the author declarations and review any conflicts. The idea check reports incomplete fields and declarations; it does not establish scientific validity or external approval. An optional rate estimate uses the entered authoring hours.
 
-The runner listens only on 127.0.0.1, checks Host and Origin, and requires an in-memory token for execution requests. It accepts task folders only inside workspace/tasks/, rejects symlinks and obvious structural conflicts, and does not serve task contents or runtime snapshots as static files. The logs/evidence API is intended for this local workspace. The preflight is a limited structural scan, not full rule certification; declarations and manual review still matter.
+The page saves one draft and supports versioned JSON export/import. The original idea-only backup format remains supported on this page.
 
-Stage 1 captures research context, expertise, problem and deliverables, difficulty, originality, provenance, independent ground truth, verification feasibility, and author declarations. It saves one draft, imports/exports versioned JSON, reports missing fields and declared conflicts, and provides an optional rate estimate based on authoring hours.
+### 2. Specification
 
-Stage 2 is available from the Specification link, or dist/specification.html. It captures identity, artifact paths, acceptance criteria, independent ground truth, numerical tolerances, reproducibility, resource/timing limits, environment plans, and personally authored instruction text. It reads the stage 1 draft without changing it. Use the same browser and origin for both pages. Stage 2 has a separate saved draft and a workspace JSON export/import containing both stages; stage 1's older idea-only export remains supported on its original page.
+Define task identity, absolute artifact paths, acceptance criteria, ground-truth evidence, numerical tolerances, reproducibility, resources, timings and environment plans. Enter personally authored task instructions. The application does not generate or rewrite submission instruction prose.
 
-Stage 2 checks required declarations, slug format, resource limits, absolute artifact paths and duplicates, presence of each output path in instructions, Markdown headings/lists, and the exact source-prescribed ending. It flags proposed exceptions, stage 1 ground truth conflicts, missing measurements and pending external review. It never generates or rewrites author instruction prose. No solve-band threshold is chosen. Paths are conservatively restricted to file paths without whitespace for this app; this is an application limitation, not an additional source rule.
+Checks cover required declarations, slug/resource constraints, output paths, instruction formatting and the exact timeout suffix. Recorded conflicts, missing measurements and source contradictions remain explicit. Paths containing whitespace are not supported by the current artifact-path checks; this is an application limit rather than an additional source rule.
 
-Stage 3 is available at dist/bundle.html. It collects remaining author metadata, tags, solution explanation, and a README; reads the saved stage 1/2 drafts; previews schema 1.4 task.toml; selects a local folder; checks required files, approved roots, unsafe paths, selected source policies and conflicts; and exports an uncompressed preparation ZIP with files at its root. Personally written instructions are copied unchanged from stage 2. Imported instruction.md, task.toml, or README.md that differ from saved/editor content block export rather than being silently replaced. Optional authoring/ evidence and binary files are preserved.
+Stage 2 reads the idea draft without changing it, saves a separate specification draft and exports/imports a workspace JSON containing stages 1 and 2.
 
-Folder files are memory-only and must be reselected after reload. Stage 3 metadata is saved separately and can be exported/imported as bundle-metadata.json; it is not included in stage 2's older workspace export. Back up both. The application limits folder size to 100 MB; this is an app limitation, not a source requirement. No hosted upload occurs.
+### 3. Bundle preparation and ZIP export
 
-Stage 4 is available at dist/validation.html. It offers prerequisite checks, task selection, local execution through the runner, evidence display/export, and saved manual review notes. Expected reward observations require exit code zero, exactly one reward with the expected value, and a CTRF-shaped report; this does not prove report completeness, coverage, or scientific correctness. Quality output always requires manual review. Imported notes never count as runner-observed results. Metadata/history backups from earlier stages remain separate from validation-evidence.json. Runtime files persist on disk, while visible run history belongs to the current server session.
+Complete author metadata, tags, the solution explanation and README. The page reads stages 1 and 2 and previews schema 1.4 task.toml. Select the prepared task folder and review structural/file-conflict feedback before exporting the preparation ZIP.
 
-Stage 5 is available at dist/submission.html. It records submission identity and revision, the selected ZIP's local SHA-256 checksum, the separate runner bundle fingerprint, eight automated gate states, human review, rejection reasons, approval references and payment evidence. All external statuses are explicitly self-reported. The app has no project-platform connection and never submits or verifies a task externally. ZIP hash calculation does not establish originality or archive structure. A different archive can still be a prohibited near-duplicate.
+Required task files must be at the ZIP root. The export includes the saved instruction text unchanged. Imported instruction.md, task.toml or README.md that conflicts with the saved/editor content blocks export rather than being silently replaced. Allowed binary files and optional authoring/ evidence are preserved. Folder selection is memory-only and must be repeated after reload. The folder-size limit is 100 MB.
 
-Drafts autosave; Append status record adds a snapshot to local history. Approval records require submitted state, all automated gates reported passed, approval date and evidence reference. Received payment needs approval plus payment date and reference. Amount is fixed at $300 USD per approved task, with no invented due date. Infrastructure failures remain distinct from task failures. A changed ZIP requires a new revision, and an identical hash recorded under another task/revision blocks a duplicate submission record. Substantive revision changes must be documented; all pipeline gates must run again on the platform.
+Stage 3 metadata has a separate bundle-metadata.json backup and is not part of stage 2's workspace export. The ZIP is created locally; no hosted upload occurs. Export alone does not establish submission readiness.
 
-Export tracker backup preserves the current draft and history in submission-tracker.json. Import merges valid history records by ID, preserves existing records, and loads the imported draft. Imported records remain unverified self-reports. Earlier-stage backups and validation evidence remain separate; export each relevant file when moving browsers or origins. A known conflict blocks appending a clean status record and requires discussion and user permission before any conflicting action. Draft conflict notes can still be retained/exported.
+### 4. Validation
 
-PROJECT_RULES.md records the mandatory requirements for the local AfterQuery workflow. The unchanged source documents are in workspace/ and included with the project owner’s confirmed redistribution permission. They remain subject to their own rights and terms. All five workflow screens are implemented. No AI instruction generation or external submission occurs. Stage 4 runs task code only after explicit run actions. A complete form does not establish acceptance or scientific validity. Source contradictions remain explicit. Source files and full manual review remain authoritative; static scans are intentionally limited and do not certify every pin, sealed boundary, or verifier behavior.
+Extract the preparation ZIP into workspace/tasks/&lt;task-slug&gt;/, with required files directly inside that directory. Open the validation page through the local server, refresh tool/task discovery, select the task and review the execution consent before starting a check.
 
-## Historical implementation checks
+Reference-solution checks expect reward 1; no-operation checks expect reward 0. Repeat checks on an unchanged bundle and inspect the evidence. Quality review requires an additional provider-transmission acknowledgement and manual review of its findings.
 
-These paragraphs record earlier implementation passes, not the current installation status.
+Each run uses a task snapshot under runtime/&lt;run-id&gt;/task and records its fingerprint, command output, reward files, CTRF-shaped reports and source-change status. An expected-reward observation requires successful process completion, exactly one matching reward file and a report; it does not certify verifier coverage or scientific correctness. Command duration includes container/harness overhead and is not a measured solution runtime.
 
-Verified in the browser: page loads, incomplete form produces missing-field/declaration feedback, reference-derived ground truth produces a rule-conflict warning, and saving/reloading restores the draft. Export/import are implemented but not exercised end to end in this pass.
+Manual review notes and declarations remain self-reported. A documented sample-only exception can be recorded for its exact -sm task; it does not approve a different task, a real submission or any pending check. Existing notes without explicit approval remain unresolved. Run summaries count records by task name; compare fingerprints before relying on repeated results.
 
-Stage 2 verification: JavaScript syntax check; browser rendering and incomplete-form feedback; below-minimum agent timeout and relative artifact path rejected. Workspace import/export is implemented but not exercised end to end. Manual scientific review remains necessary.
+Runs are sequential. This release has no in-app cancellation manager. Keep the runner open during a check and use Harbor/Docker management tools when necessary. Runtime files persist on disk, but visible run history belongs to the server session. Export validation-evidence.json before ending a session. Import restores review notes; imported run claims do not become runner-observed results.
 
-Stage 3 verification: JavaScript syntax checks; isolated structural fixture tests for metadata, empty-tag rejection, and conflicting-file rejection; generated TOML independently parsed; ZIP CRC/binary/Unicode roundtrip verified with Python; browser rendering and incomplete-bundle export blocking checked. Native browser folder selection and final ZIP download have not been exercised end to end. No Harbor or project checks have run.
+### 5. Submission and payment tracking
 
-Stage 4 verification: Python compile and JavaScript syntax checks; five automated tests covering missing files, task-path boundaries, fingerprint change detection, binary reward/CTRF collection, rejection of unauthorized execution requests, and encoded runtime-file access. Browser verified connected/missing-prerequisite status, disabled run buttons, and zero-run status without false passes. Real Harbor execution, model-provider review, and end-to-end evidence download/import remain unverified because prerequisites are absent.
+Record submission identity/revision, the ZIP checksum, the separate runner bundle fingerprint, platform gate states, human review, rejection reasons and payment references. External states are self-reported. The application has no AfterQuery connection and does not submit tasks or verify external approval.
 
-Stage 5 verification: JavaScript syntax checks and automated tests of draft/submission validity, approval gating, payment requirements/chronology, fixed payout amount, conflicting revisions and identical archive checks, infrastructure states, and rule-conflict blocking. Browser verified initial pending state and rejection of premature approval with no status record appended. Native ZIP selection, backup import/export, and final downloads still need end-to-end browser testing. No external submission, approval, or payment has occurred.
+Appending a status record saves a local history snapshot. Approval entries require a submitted state, reported passing gates, an approval date and an evidence reference. Received-payment entries also require a payment date and reference. The recorded payout is $300 USD per approved task; no payment deadline is inferred.
 
+A different ZIP requires a documented revision. Identical hashes under another task/revision are blocked as duplicate records; changed hashes do not prove originality. Infrastructure failures remain distinct from task failures. Tracker export/import uses submission-tracker.json, preserves existing valid history and treats imported statuses as unverified reports. Recorded conflicts prevent a clean status entry pending resolution.
 
-## Current verification and publication status
+## Data, security and operating limits
 
-Earlier verification paragraphs above describe historical implementation passes and their limits. Subsequent Windows testing completed an executable synthetic sample: actual Harbor oracle rewards 1,1 and nop rewards 0,0 on one unchanged fingerprint, plus separate numerical/shortcut checks. Those tests do not establish AfterQuery approval or performance on other computers. Provider-based quality review and frontier difficulty remain unverified. Sample task data, personal review notes, runtime logs, credentials and release snapshots are not public source inputs.
+- Browser drafts belong to the exact origin, including port. Export each stage's relevant backup before changing browsers, ports or opening methods. Stage backups and runtime files are separate.
+- The default port is 8765. TASK_AUTHOR_PORT can select another free port before startup. Do not stop an unrelated service to free the port.
+- The runner listens on loopback, validates Host/Origin and requires an in-memory token for execution requests. Task folders must remain inside workspace/tasks/. Symlinks and selected structural conflicts are rejected; task contents and runtime snapshots are not served as static files.
+- Structural checks are intentionally limited. They do not certify every dependency pin, sealed boundary, numerical tolerance, originality claim or task requirement.
+- Edited task files do not automatically synchronize earlier form drafts. Keep the specification, selected files and tested fingerprint consistent.
+- GitHub hosts source and release downloads, not the Python/Docker execution service. Hosted multi-user evaluation is not implemented.
 
-For clean installation, publication exclusions, license decisions and private source documents, read PUBLICATION.md. GitHub source hosting does not run the Python server or Docker. This is a local application; GitHub Pages cannot provide its execution runner.
+## Requirements, verification and distribution
 
-## Rights
+[PROJECT_RULES.md](PROJECT_RULES.md) summarizes the source requirements. The original documents in workspace/ remain authoritative and are distributed unchanged with permission. Source contradictions, including the eight-attempt lower solve bound, remain unresolved. A complete form or local pass does not establish AfterQuery acceptance.
 
-Application code: all rights reserved; see LICENSE.txt. This is not an open-source license. The source documents and third-party tools retain their own terms. See PUBLICATION.md for the recorded decisions and package exclusions.
+Recorded checks include Windows fresh-folder startup, five-page loading, structural validation, selected invalid-input paths, ZIP integrity and repeated actual Harbor results for a synthetic example: oracle 1,1 and no-operation 0,0 on an unchanged fingerprint. Model-based quality review, external originality/authorship checks and frontier difficulty have not been established. Some browser import/export paths still require end-to-end coverage. Detailed verification history is in [CHANGELOG.md](CHANGELOG.md).
+
+Release archives and manifests follow [VERSIONING.md](VERSIONING.md). Distribution contents, exclusions and third-party terms are documented in [PUBLICATION.md](PUBLICATION.md). No general code reuse license is granted by the package.

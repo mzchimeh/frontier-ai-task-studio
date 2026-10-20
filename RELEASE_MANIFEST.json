@@ -1,36 +1,36 @@
 {
   "application": "Frontier AI Task Studio",
-  "version": "1.0.5",
-  "releaseDate": "2026-10-19",
+  "version": "1.0.6",
+  "releaseDate": "2026-10-20",
   "algorithm": "SHA-256",
   "files": {
     "VERSION": {
-      "sha256": "103ebd907c90b2d757fa619a23aef36ab3a20e23f0e5aefb5e1367e08151ebf6",
+      "sha256": "3dd81e3d2bbe930a0c98531afa6c35bd862ee8a08458ec0d7d1b51138d7b3a3c",
       "bytes": 7
     },
     "release.json": {
-      "sha256": "ab4993ad73e45e9278520cdba07530b8b1c49d73a11626af6e2b122826a7f885",
-      "bytes": 279
+      "sha256": "ff282ba76f27930676656256c85df084bcaabcff4472b33fc109c746d270b7f7",
+      "bytes": 290
     },
     "CHANGELOG.md": {
-      "sha256": "d972665bb87696bfedac6c059534634c882d16a867fba3a8f21a30213dfad9b0",
-      "bytes": 7049
+      "sha256": "cd5e2c04e4a995dc2dac1ca4ae0b22e0988d544930ea4864c4e36578f22c2dfe",
+      "bytes": 8102
     },
     "VERSIONING.md": {
-      "sha256": "298a2b7d916f1f4fc7b027bffbaf477b6481b7ad633542de4896601a9b181515",
+      "sha256": "ab64d3fd1f80a8a13347050b798247a2a76d8b53e46482568c30fcd091c5fe09",
       "bytes": 3035
     },
     "AGENTS.md": {
-      "sha256": "7ce33ef41333470a99c334070d1e305f0a8758af3a89d03ff192b265d0021079",
-      "bytes": 956
+      "sha256": "cd968e37fcb1795fa36729d0fde60279329bf2c8d94d840d8551f2f3d67091bf",
+      "bytes": 1829
     },
     "PROJECT_RULES.md": {
       "sha256": "3d549f53da1e1cab6e993d741f889b0e1c888ede6ae15f7f71d94eb9d60f0e8c",
       "bytes": 5561
     },
     "README.md": {
-      "sha256": "0439583625e195c4a9cbe41eba2c039f141128fcb5cee50d761cfdffdec63b5c",
-      "bytes": 13829
+      "sha256": "5ce2c3adc22184285d3e55bb5c4f64c8ed9a172d309a885aa9a5b013320febf4",
+      "bytes": 9924
     },
     "Start App.ps1": {
       "sha256": "7221bf95716fdca5e71abbe20c8daea16c6e2f6fad7501a068a41efbb0c48332",
@@ -45,7 +45,7 @@
       "bytes": 2570
     },
     "dist/bundle.html": {
-      "sha256": "4a2c0d114e32cbe1eaccb9e032e83ce271c872ed0c08b5ce18285abe00fdf8ac",
+      "sha256": "67ba7eb3803636fa4480f5b26432c7a18ea4458fa17179db68d622ee560bebe3",
       "bytes": 5924
     },
     "dist/bundle.js": {
@@ -53,11 +53,11 @@
       "bytes": 13639
     },
     "dist/index.html": {
-      "sha256": "ca92d850f4ff2a60bc33bd6b26668cab904705babee7964d407a6f8ef154a9c8",
+      "sha256": "0c1706a0a505e8bf2b9bc10c212cff6358f00d0ddc3b6735ced1bfcf8390c460",
       "bytes": 18585
     },
     "dist/specification.html": {
-      "sha256": "e6421cd088d45ab7f53485077b4e45699fc1111597107c4d156fbe6243b53bd3",
+      "sha256": "0839c048b7454296b73d62d10af6340f7b8f4b8cc8ea66728c52b21ae8480f67",
       "bytes": 9123
     },
     "dist/specification.js": {
@@ -73,7 +73,7 @@
       "bytes": 4070
     },
     "dist/submission.html": {
-      "sha256": "3dc0b41a700869ec65d932f7c7b56832c25fb0a5449998a20d05d1f0b5ca75a7",
+      "sha256": "7a46f3567dc61de173584137bbdbdce7c72be237eb5bc91aadf12d834963fc67",
       "bytes": 7709
     },
     "dist/submission.js": {
@@ -81,7 +81,7 @@
       "bytes": 7893
     },
     "dist/validation.html": {
-      "sha256": "bbdba2e8289aeb7bc1627f7157182ae63f4a55d2754c02e0d310d9c704c392f9",
+      "sha256": "d4baa7d06cf1199bde984cf20ed2ea482a8f435b9067335ac7a567c2cf70d01c",
       "bytes": 7916
     },
     "dist/validation.js": {
@@ -109,12 +109,12 @@
       "bytes": 475
     },
     "PUBLICATION.md": {
-      "sha256": "d6a050261ad9333dbb8d2999b0a750d6dd46bd7c5551d1d4050bd4477a7e464a",
-      "bytes": 2918
+      "sha256": "97bea5f3d661d167271997919ba05bca6b9980d4910cd8d7a73ca965c5096d07",
+      "bytes": 2799
     },
     "INSTALL_FOR_AGENTS.md": {
-      "sha256": "8a89d524b75aa5be0211b8cf30ad672b9a3ee074c0b8b98b23794cd91bc7c37b",
-      "bytes": 9011
+      "sha256": "e824ad9f0cbfc29dca6d9f1b5f24ca5ba5ce8491e662d5855fb2def2b890e923",
+      "bytes": 7142
     }
   },
   "excluded": [

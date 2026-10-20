@@ -3,3 +3,7 @@ Read PROJECT_RULES.md and both original source documents in workspace/ before ch
 Follow VERSIONING.md for every software correction or feature. Record unreleased changes in CHANGELOG.md. Never overwrite a released snapshot or archive; release fixes under a new semantic version. Keep VERSION, release.json, changelog, and visible screen versions consistent. Preserve stored drafts and backup compatibility; software archives exclude user/runtime data.
 
 For user-requested installation or startup assistance, read INSTALL_FOR_AGENTS.md. Do not confuse installation verification with task evaluation or external approval.
+
+Public documentation must be standalone product documentation for its intended audience. Avoid conversational framing, references to a requesting person, authoring-session narratives, personal machine paths and instructions about what an assistant should tell someone. Preserve factual verification limits, necessary technical instructions, legitimate authorship requirements and architecture comments. Do not invent human authorship or erase provenance records.
+
+Before each new task or stage, identify the applicable formal standard or official guidance, distinguish it from recommendations, and state relevant disclosure/legal risks and any required permission before dependent actions. Do not invent a standard. GitHub publication uses the existing repository and standard review, stage, commit, push, tag and release workflow; alternatives require explicit approval.

@@ -1,9 +1,9 @@
 {
   "name": "Frontier AI Task Studio",
-  "version": "1.0.5",
-  "releaseDate": "2026-10-19",
+  "version": "1.0.6",
+  "releaseDate": "2026-10-20",
   "versioning": "Semantic Versioning",
-  "status": "agent installation guide added; application behavior unchanged",
+  "status": "public documentation editorial correction; application behavior unchanged",
   "changelog": "CHANGELOG.md",
   "policy": "VERSIONING.md"
 }

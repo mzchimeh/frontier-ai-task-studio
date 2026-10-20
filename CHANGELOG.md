@@ -6,6 +6,20 @@ All released software changes are recorded here using Semantic Versioning. Relea
 
 No changes recorded yet.
 
+## 1.0.6 — 2026-10-20
+
+### Documentation
+
+- Rewrote the README, automated installation reference and distribution policy as standalone technical documentation. Removed conversational instructions, authoring-session narratives and publication-preparation statements that no longer described the published project.
+- Retained installation commands, workflow constraints, rights notices, verification limits and task-authorship requirements. Added documentation-style and standard-workflow requirements to AGENTS.md.
+- Preserved application logic, architecture comments, storage formats, source documents, runtime data and existing releases.
+
+### Verification
+
+- Checked local Markdown links, required setup commands, editorial patterns and version consistency.
+- Confirmed all application scripts and original source documents remain byte-identical to v1.0.5. Verified the new ZIP against its SHA-256 manifest and preserved the prior archive unchanged. No task evaluations or dependency installations were performed for this documentation correction.
+
+
 ## 1.0.5 — 2026-10-19
 
 ### Documentation
